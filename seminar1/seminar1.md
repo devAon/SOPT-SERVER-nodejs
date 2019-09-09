@@ -134,6 +134,7 @@ a();
 
 
 * 화살표 함수 
+
 Ex1)
 ```
 var add = (x, y) => x + y;
@@ -157,7 +158,7 @@ func1();
 ```
 var jsonEx = {
     "nickname" : "애오니",
-    "hobby" : "Programming" //=> 희망사항
+    "hobby" : "Programming"
 }
 console.log(jsonEx);
 ```
