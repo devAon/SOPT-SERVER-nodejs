@@ -20,14 +20,14 @@ router.post('/', async (req, res) => {
         const hashedPw = await crypto.pbkdf2(req.body.password.toString(), salt, 1000, 32, 'SHA512');
         const signupResult = await db.queryParam_Parse(signupQuery, [req.body.id, req.body.name, hashedPw.toString('base64'), salt]);
         if (!signupResult) {
-            //console.log("멤버십 조회 실패");
+            //멤버십 조회 실패
             res.status(200).send(defaultRes.successFalse(statusCode.DB_ERROR, resMessage.SIGNUP_FAIL));
         } else {  
-            //console.log("멤버십 삽입 성공");
+            //멤버십 삽입 성공
             res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.SIGNUP_SUCCESS));
         }
     } else {
-        console.log("중복된 ID가 있습니다.");
+        //중복된 ID가 있습니다
         res.status(200).send(defaultRes.successFalse(statusCode.OK, resMessage.DUPLICATED_ID_FAIL));
     }
 });

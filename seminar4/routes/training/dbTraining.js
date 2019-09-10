@@ -56,7 +56,6 @@ router.post('/transaction', async(req, res) => {
     });
 
     //실패했을 때 모듈 안에서 자동적으로 rollback을 해주고, 성공했을 때 commit을 해주기 때문에 따로 안해줘도 됨
-    //저는 지금 에러처리를 몇단계 스킵햇지만 여러분은 여러분 나름대로 에러처리 꼭 해주세요.
     if (!insertTransaction) {
         res.status(200).send(defaultRes.successFalse(statusCode.OK, resMessage.MEMBERSHIP_TRANSAC_FAIL));
     } else {
