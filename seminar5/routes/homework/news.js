@@ -87,26 +87,22 @@ router.post('/', upload.array('imgs'), async (req, res) => {
 });
 
 
-router.put('/', upload.array('imgs'), async (req, res) => {     
-    const newsIdx = req.body.newsIdx;
+router.put('/:newsIdx', upload.array('imgs'), async (req, res) => {  
+    const { newsIdx } = req.params;
+    const { title, writer, contents } = req.body;
+    const imgs = req.files;  
+    const writetime = moment().format('YYYY-MM-DD HH:mm:ss');
+
     const selectNewsQuery = 'SELECT * FROM news JOIN contents ON news.newsIdx = contents.newsIdx WHERE news.newsIdx = ?';
     const selectNewsResult = await db.queryParam_Parse(selectNewsQuery, [newsIdx]);
-    //console.log(selectNewsResult);
-    console.log(`newsIdx : ${newsIdx}`);
-    console.log(`selectNewsResult.insertId : ${selectNewsResult.insertId}`);
-    console.log(`selectNewsResult.newsIdx : ${selectNewsResult.newsIdx}`);
-    console.log(selectNewsResult.newsIdx);
+
+    //console.log(`newsIdx : ${newsIdx}`);
+    //console.log(`selectNewsResult[0].newsIdx: ${selectNewsResult[0].newsIdx}`);
 
     if (selectNewsResult[0] == null) {
         //newsIdx와 일치하는 게시물이 없습니다
         res.status(200).send(defaultRes.successFalse(statusCode.NO_CONTENT, resMessage.NOT_FOUND_NEWSIDX));
     } else {
-        const title = req.body.title;
-        const writer = req.body.writer;
-        const imgs = req.files;
-        const contents = req.body.contents; //여러개의 content 배열로 담겨있음.
-        const writetime = moment().format('YYYY-MM-DD HH:mm:ss');
-
         if (imgs.length === 0 || !title || !writer || contents.length === 0) {
             //수정된 내용이 없습니다
             res.status(200).send(defaultRes.successFalse(statusCode.BAD_REQUEST, resMessage.NULL_UPDATE_VALUE));
@@ -120,10 +116,10 @@ router.put('/', upload.array('imgs'), async (req, res) => {
                     contentImg.push(imgs[i].location);
                 }
 
-                const updateNewsQuery = 'UPDATE news SET writer = ?, title = ?, thumnail= ?, writetime = ?';
-                const updateNewsResult = await db.queryParam_Parse(updateNewsQuery, [writer, title, thumnail, writetime]);
+                const updateNewsQuery = 'UPDATE news SET writer = ?, title = ?, thumnail= ?, writetime = ? WHERE newsIdx = ?';
+                const updateNewsResult = await db.queryParam_Parse(updateNewsQuery, [writer, title, thumnail, writetime, newsIdx]);
 
-                const updateContentsQuery = 'UPDATE contents SET content = ?, contentImg = ?, newsIdx = ?';
+                const updateContentsQuery = 'UPDATE contents SET content = ?, contentImg = ? WHERE newsIdx = ?';
                 for (let i = 0; i < contentImg.length; i++) {
                     const updateContentsResult = await db.queryParam_Parse(updateContentsQuery, [contents[i], contentImg[i], newsIdx]);
                 }
@@ -140,8 +136,8 @@ router.put('/', upload.array('imgs'), async (req, res) => {
 });
 
 
-router.delete("/", async (req, res) => {
-    const newsIdx = req.body.newsIdx;
+router.delete("/:newsIdx", async (req, res) => {
+    const { newsIdx } = req.params;
 
     const selectNewsQuery = 'SELECT * FROM news JOIN contents ON news.newsIdx = contents.newsIdx WHERE news.newsIdx = ?';
     const selectNewsResult = await db.queryParam_Parse(selectNewsQuery, newsIdx);
