@@ -2,6 +2,7 @@
 
 
 * 기술스택
+   * 서버플랫폼 : Node.js
    * 프로그래밍 언어 : JavaScript
    * 백엔드 개발 프레임워크 : Express
    * 데이터베이스 : MySQL
