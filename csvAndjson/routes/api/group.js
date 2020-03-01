@@ -7,7 +7,7 @@ const json2csv = require('json2csv');
 const fs = require('fs');
 
 
-const filePath = './routes/api/';
+const filePath = './public/csvs/';
 const groupMap = {};
 
 router.get('/', async (req, res) => {
