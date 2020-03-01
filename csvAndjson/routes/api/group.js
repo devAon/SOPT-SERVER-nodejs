@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const csvManager = require('../../module/csvManager')
 
+const csvManager = require('../../module/csvManager');
+const groupMixer = require('../../module/groupMixer');
 
 const filePath = './public/csvs/';
 
@@ -33,22 +34,14 @@ router.get('/', async (req, res) => {
 router.get('/mixer', async (req, res) => {
     try {
         const memberArr = await csvManager.read('member.csv');
-        var mixerArr = [...memberArr];
-        mixerArr.forEach(element => {
-            const mixIdx = parseInt(Math.random() * memberArr.length - 1);
-            const tempGroupIdx = element.groupIdx;
-            element.groupIdx = mixerArr[mixIdx].groupIdx;
-            mixerArr[mixIdx].groupIdx = tempGroupIdx;
-        });
-
+        const mixerArr= await groupMixer.mix(memberArr);
         await csvManager.write('member.csv', mixerArr)
-        res.status(200).send('success');
+        res.status(200).send('success to mix group');
     } catch (err) {
         console.log(err);
         res.status(500).send('Internal Server Error');
     }
-
-})
+});
 
 
 

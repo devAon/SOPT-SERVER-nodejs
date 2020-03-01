@@ -8,23 +8,23 @@ const filePath = './public/csvs/';
 
 const csvManager = {
     //json -> csv
-    write : (fileName, jsonArr) =>{
-        return new Promise((resolve, reject)=>{
+    write: (fileName, jsonArr) => {
+        return new Promise((resolve, reject) => {
             const resultCsv = json2csv.parse(jsonArr);
-            fs.writeFileSync(path.join(filePath, fileName), resultCsv, (err)=>{
-                if(err){
+            fs.writeFile(path.join(filePath, fileName), resultCsv, (err) => {
+                if (err) {
                     reject(err);
                     return;
                 }
                 resolve(true);
-            })
-        })
+            });
+        });
     },
-    read : (fileName) =>{
-        return new Promise((resolve, reject)=>{
-            csvtojson().fromFile(path.join(filePath, fileName)).then((jsonArr)=>{
+    read: (fileName) => {
+        return new Promise((resolve, reject) => {
+            csvtojson().fromFile(path.join(filePath, fileName)).then((jsonArr) => {
                 resolve(jsonArr);
-            }, (err)=>{
+            }, (err) => {
                 reject(err)
             })
         });
@@ -32,4 +32,4 @@ const csvManager = {
 }
 
 
-module.exports =csvManager;
+module.exports = csvManager;
