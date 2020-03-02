@@ -20,7 +20,7 @@
 # 💥 세미나 개념 정리 💥
 
 * 🍓 1차 세미나
-  * [자바스크립트 기초] (https://aonee.tistory.com/entry/Nodejs-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EA%B8%B0%EC%B4%88)
+  * [자바스크립트 기초](https://aonee.tistory.com/entry/Nodejs-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EA%B8%B0%EC%B4%88)
 
 * 🍓 2차 세미나
 
